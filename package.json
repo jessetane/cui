@@ -1,12 +1,13 @@
-"name": "ghost",
-"version": "0.0.1",
-"author": {
-  "name": "anonymous",
-  "email": "a@b.com"
-},
-"description": "testing global npm install with binaries",
-"main": "ghost.coffee",
-"bin": "bin/ghost",
-"dependencies": {
-  "coffee-script": "*"
+{
+  "name": "ghost",
+  "description": "testing global npm install with binaries",
+  "version": "0.0.1",
+  "author": {
+    "name": "anonymous",
+    "email": "a@b.com"
+  },
+  "main": "ghost",
+  "bin": {
+    "ghost": "bin/ghost"
+  }
 }

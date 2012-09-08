@@ -22,8 +22,8 @@ exports.operator = function () {
     // with explicit params
     {
       name: "touch",
-      operation: fs.mkdir
-    }, 
+      operation: fs.openSync
+    },
     
     // detailed - specifies params and help infos
     {

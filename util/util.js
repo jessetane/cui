@@ -68,7 +68,7 @@ exports.answerQuestions = function (questions, cb) {
       var rl = exports.readline();
       var bracket = (questions.length === 1) ? " └─ " : " ├─ ";
       rl.question(bracket + questions.shift(), function (answer) {
-        answers.push(answer);
+        answers.push(answer || undefined);
         rl.close();
         complete();
       });

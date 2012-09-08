@@ -1,13 +1,13 @@
 {
-  "name": "ghost",
-  "description": "testing global npm install with binaries",
+  "name": "operator",
+  "description": "An assistant",
   "version": "0.0.1",
   "author": {
-    "name": "anonymous",
-    "email": "a@b.com"
+    "name": "Twosixheave, Inc",
+    "email": "admin@twosixheave.com"
   },
-  "main": "ghost",
+  "main": "operator",
   "bin": {
-    "ghost": "bin/ghost"
+    "ghost": "bin/operator.js"
   }
 }

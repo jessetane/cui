@@ -15,20 +15,36 @@ exports.selectNumericalChoice = function (items, choice) {
 
 exports.readline = function () {
   var readline = require("readline");
-  return readline.createInterface({ 
-    input: process.stdin, 
+  return readline.createInterface({
+    input: process.stdin,
     output: process.stdout
   });
 }
 
-exports.listItems = function (items) {
-  console.log("TODO: LIST OF CHOICES");
+/*
+if (props.map) {
+  label = props.map(function (prop, n) {
+    var pre, post = "─";
+    if (n !== 0) pre = "─";
+    else if (n === props.length-1) post = "";
+    return pre + item[prop] + post;
+  });
+} else {
+  label = item[props];
+}
+*/
+exports.listItems = function (items, props) {
+  if (!items.__proto__.forEach) items = Object.keys(items);
+  items.forEach(function (item, i) {
+    var bracket = (i === items.length-1) ? " └─" : " ├─";
+    console.log(bracket + "[ " + (i+1) + " ]─ " + item);
+  });
 }
 
-exports.pickItem = function (prompt, items, props, cb) {
+exports.pickItem = function (items, props, cb) {
   var pick = function () {
     var rl = exports.readline()
-    rl.question(prompt + "[1-" + items.length + "] ", function (i) {
+    rl.question("Enter a number [1-" + items.length + "]: ", function (i) {
       rl.close();
       var choice = exports.selectNumericalChoice(items, i);
       if (choice) {

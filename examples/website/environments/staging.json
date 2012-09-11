@@ -1,0 +1,7 @@
+{
+  "aws": {
+    "key": "AKIAJK6RLDQ2U57MV4EA",
+    "secret": "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",
+    "keypairs": { "twosixheave": "~/.ssh/twosixheave-keypair" }
+  }
+}

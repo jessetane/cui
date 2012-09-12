@@ -23,17 +23,17 @@ loadModule(process.cwd(), function (err, module) {
   } else {
     if (module.greeting) console.log(module.greeting + "\n");
     choose(module.operations, module.prompt, function (choice) {
-      console.log("Done");
+      choice();
     });
   }
 });
 
 //
-function choose (items, props, cb) {
-  if (module.prompt) console.log(" • " + module.prompt);
-  else console.log(" • ");
-  util.listItems(items, props);
-  util.pickItem(items, props, cb);
+function choose (items, prompt, cb) {
+  if (prompt) console.log("• " + prompt);
+  else console.log("• ");
+  util.listItems(items);
+  util.pickItem(items, cb);
 }
 
 // look for a package.json file

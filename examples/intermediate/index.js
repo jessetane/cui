@@ -62,9 +62,13 @@ exports.operator = function (operator) {
       Basic: function () { console.log("Hello World, from the Basic example!") },
       "Intermediate": {
         prompt: "This example will attempt to determine your age.",
-        operations: {
-          
-        }
+        sequence: [
+          {
+            questions: [ 
+              "What month were you born? "
+            ]
+          }
+        ]
       },
       "Advanced": {
         

@@ -21,51 +21,28 @@ exports.readline = function () {
   });
 }
 
-/*
-if (props.map) {
-  label = props.map(function (prop, n) {
-    var pre, post = "─";
-    if (n !== 0) pre = "─";
-    else if (n === props.length-1) post = "";
-    return pre + item[prop] + post;
-  });
-} else {
-  label = item[props];
-}
-*/
-exports.listItems = function (items, props) {
+exports.listItems = function (items) {
   if (!items.__proto__.forEach) items = Object.keys(items);
   items.forEach(function (item, i) {
-    var bracket = (i === items.length-1) ? " └─" : " ├─";
+    var bracket = (i === items.length-1) ? "└─" : "├─";
     console.log(bracket + "[ " + (i+1) + " ]─ " + item);
   });
 }
 
-exports.pickItem = function (items, props, cb) {
+exports.pickItem = function (items, cb) {
+  var dict;
+  if (!items.__proto__.forEach) {
+    dict = items;
+    items = Object.keys(items);
+  }
   var pick = function () {
     var rl = exports.readline()
     rl.question("Enter a number [1-" + items.length + "]: ", function (i) {
       rl.close();
       var choice = exports.selectNumericalChoice(items, i);
       if (choice) {
-        var msg = " • ";
-        if (props) {
-          if (props.forEach) {
-            props.forEach(function (prop, i) {
-              if (i > 0) {
-                msg += " ─ " + choice[prop]
-              } else {
-                msg += choice[prop]
-              }
-            });
-          } else {
-            msg += choice[props];
-          }
-        } else {
-          msg += choice;
-        }
-        console.log(msg);
-        cb(choice);
+        console.log("You chose \"" + choice + "\"");
+        cb((dict) ? dict[choice] : choice);
       } else {
         console.log("Invalid choice");
         pick();

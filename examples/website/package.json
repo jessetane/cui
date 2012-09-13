@@ -1,9 +1,0 @@
-{
-  "name": "website",
-  "version": "0.0.1",
-  "author": "Jesse Tane <jesse@twosixheave.com>",
-  "main": "website",
-  "dependencies": {
-    "aws": "*"
-  }
-}

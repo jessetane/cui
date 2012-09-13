@@ -18,84 +18,10 @@ loadModule(process.cwd(), function (err, module) {
   if (!module) {
     console.log("No compatible module found", err);
   } else {
-    if (module.name) console.log(module.name + "\n");
+    if (module.name) console.log(module.name);
     operate(module);
   }
 });
-
-
-function operate (operation) {
-  switch (operation.type) {
-    case "sequence":
-      if (operation.prompt) console.log(operation.prompt);
-      sequence = operation.data.concat(sequence);
-      sequencer();
-      break;
-    case "executable":
-      var cb = function (err, result) {
-        if (err) throw err;
-        operator.results.push(result);
-        sequencer();
-      };
-      var result = operation.data(cb);
-      if (result) cb(null, result);
-      break;
-    case "question":
-      getDynamicData(operation.data, function (err, questions) {
-        if (err) throw err;
-        if (operation.prompt) console.log(operation.prompt);
-        askQuestions(questions, function (answers) {
-          operator.results = operator.results.concat(answers);
-          sequencer();
-        });
-      });
-      break;
-    case "choice":
-      getDynamicData(operation.data, function (err, options) {
-        if (err) throw err;
-        if (operation.prompt) console.log("• " + operation.prompt);
-        else console.log("• ");
-        listOptions(options, operation.properties);
-        chooseOption(options, operation.properties, function (choice) {
-          operator.results.push(choice);
-          sequencer();
-        });
-      });
-      break;
-    default:
-      console.log("Please specify an operation type.");
-      sequencer();
-      break;
-  }
-}
-
-function getDynamicData (f, cb) {
-  if (typeof f == "function") {
-    var result = f(chosen);
-    if (result) cb(null, result);
-  } else {
-    cb(null, f);
-  }
-}
-
-function sequencer () {
-  if (operator.sequence.length) {
-    operate(operator.sequence.shift());
-  } else if (operator.results.length) {
-    var result = operator.results.slice(-1)[0];
-    if (result.type && result.data) {
-      operate(result);
-    } else {
-      done();
-    }
-  } else {
-    done();
-  }
-}
-
-function done () {
-  console.log("all done!");
-}
 
 // look for a package.json file
 // require the "main" entry and
@@ -118,25 +44,97 @@ function loadModule (dir, cb) {
   cb(null, module);
 }
 
+function operate (operation) {
+  switch (operation.type) {
+    case "sequence":
+      if (operation.prompt) console.log(operation.prompt);
+      sequence = operation.data.concat(sequence);
+      sequencer();
+      break;
+    case "executable":
+      var cb = function (err, result) {
+        if (err) return done(err);
+        operator.results.push(result);
+        sequencer();
+      };
+      var result = operation.data(cb);
+      if (result) cb(null, result);
+      break;
+    case "question":
+      getDynamicData(operation.data, function (err, questions) {
+        if (err) return done(err);
+        if (operation.prompt) console.log(operation.prompt);
+        askQuestions(questions, function (answers) {
+          operator.results = operator.results.concat(answers);
+          sequencer();
+        });
+      });
+      break;
+    case "choice":
+      getDynamicData(operation.data, function (err, options) {
+        if (err) return done(err);
+        if (operation.prompt) console.log("• " + operation.prompt);
+        else console.log("• ");
+        listOptions(options, operation.properties);
+        chooseOption(options, operation.properties, function (choice) {
+          operator.results.push(choice);
+          sequencer();
+        });
+      });
+      break;
+    default:
+      done(new Error("Unrecognized operation type \"" + operation.type + "\""));
+      break;
+  }
+}
+
+function getDynamicData (f, cb) {
+  if (typeof f == "function") {
+    var result = f(chosen);
+    if (result) cb(null, result);
+  } else {
+    cb(null, f);
+  }
+}
+
+function sequencer () {
+  if (sequence.length) {
+    operate(sequence.shift());
+  } else if (operator.results.length) {
+    var result = operator.results.slice(-1)[0];
+    if (result && result.type && result.data) {
+      operate(result);
+    } else {
+      done();
+    }
+  } else {
+    done();
+  }
+}
+
+function done (err) {
+  if (err) console.log("Operation failed:", err.message);
+}
+
 function listOptions (options, props) {
   options.forEach(function (option, i) {
     var bracket = (i === options.length-1) ? "└─" : "├─";
-    console.log(bracket + "[ " + (i+1) + " ]─ " + makeChoiceLabel(item, props));
+    console.log(bracket + "[ " + (i+1) + " ]─ " + makeOptionLabel(option, props));
   });
 }
 
 function chooseOption (options, props, cb) {
-  var rl = exports.readline()
+  var rl = readline()
   rl.question("Enter a number [1-" + options.length + "]: ", function (i) {
     rl.close();
-    var choice = exports.selectNumericalOption(options, i);
+    var choice = selectNumericalOption(options, i);
     if (choice) {
       var label = makeOptionLabel(choice, props);
       console.log("You chose \"" + label + "\"");
       cb(choice);
     } else {
       console.log("Invalid choice");
-      choose(options, props, cb);
+      chooseOption(options, props, cb);
     }
   });
 }
@@ -172,11 +170,10 @@ function askQuestions (questions, cb) {
   if (typeof questions == "string") questions = [ questions ];
   ask = function () {
     if (!questions || questions.length === 0) {
-      cb(null, answers);
+      cb(answers);
     } else {
-      var rl = exports.readline();
-      var bracket = (questions.length === 1) ? "└─ " : "├─ ";
-      rl.question(bracket + questions.shift(), function (answer) {
+      var rl = readline();
+      rl.question("• " + questions.shift(), function (answer) {
         answers.push(answer || undefined);
         rl.close();
         ask();

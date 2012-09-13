@@ -8,9 +8,9 @@
 
 var util = require("./util/util");
 var args = process.argv.slice(2);
-var operator = { results: [] };
 var module = {};
-var operations = [];
+var sequence = [];
+var operator = { results: [] };
 
 
 // main
@@ -25,34 +25,76 @@ loadModule(process.cwd(), function (err, module) {
 
 
 function operate (operation) {
-  var operations = operation.operations || operation;
   switch (operation.type) {
+    case "sequence":
+      if (operation.prompt) console.log(operation.prompt);
+      sequence = operation.data.concat(sequence);
+      sequencer();
+      break;
     case "executable":
-      
+      var cb = function (err, result) {
+        if (err) throw err;
+        operator.results.push(result);
+        sequencer();
+      };
+      var result = operation.data(cb);
+      if (result) cb(null, result);
       break;
     case "question":
+      getDynamicData(operation.data, function (err, questions) {
+        if (err) throw err;
+        if (operation.prompt) console.log(operation.prompt);
+        askQuestions(questions, function (answers) {
+          operator.results = operator.results.concat(answers);
+          sequencer();
+        });
+      });
       break;
-    case "choices":
-      var chosen = function (err, options) {
+    case "choice":
+      getDynamicData(operation.data, function (err, options) {
         if (err) throw err;
         if (operation.prompt) console.log("• " + operation.prompt);
         else console.log("• ");
         listOptions(options, operation.properties);
         chooseOption(options, operation.properties, function (choice) {
           operator.results.push(choice);
-          if (choice.operations) operator(choice);
-          else operator(operations);
+          sequencer();
         });
-      };
-      if (typeof operations == "function") {
-        var options = operations(chosen);
-        if (options) chosen(null, options);
-      }
+      });
       break;
     default:
-      
+      console.log("Please specify an operation type.");
+      sequencer();
       break;
   }
+}
+
+function getDynamicData (f, cb) {
+  if (typeof f == "function") {
+    var result = f(chosen);
+    if (result) cb(null, result);
+  } else {
+    cb(null, f);
+  }
+}
+
+function sequencer () {
+  if (operator.sequence.length) {
+    operate(operator.sequence.shift());
+  } else if (operator.results.length) {
+    var result = operator.results.slice(-1)[0];
+    if (result.type && result.data) {
+      operate(result);
+    } else {
+      done();
+    }
+  } else {
+    done();
+  }
+}
+
+function done () {
+  console.log("all done!");
 }
 
 // look for a package.json file
@@ -126,13 +168,14 @@ function selectNumericalOption (options, choice) {
 }
 
 function askQuestions (questions, cb) {
-  var answers = []
+  var answers = [];
+  if (typeof questions == "string") questions = [ questions ];
   ask = function () {
     if (!questions || questions.length === 0) {
       cb(null, answers);
     } else {
       var rl = exports.readline();
-      var bracket = (questions.length === 1) ? " └─ " : " ├─ ";
+      var bracket = (questions.length === 1) ? "└─ " : "├─ ";
       rl.question(bracket + questions.shift(), function (answer) {
         answers.push(answer || undefined);
         rl.close();

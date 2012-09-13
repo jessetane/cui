@@ -29,6 +29,7 @@ Welcome to the example suite.
 └─[ 3 ]─ Advanced
 Enter a number [1-3]: 2
 You chose "Intermediate"
+
 This example will attempt to determine your age.
 
 • What year were you born? [YYYY]: 1985
@@ -56,48 +57,66 @@ ADVANCED
 exports.operator = function (operator) {
   return {
     name: "Welcome to the example suite.",
-    type: "choices",
     prompt: "Choose an example:",
-    operations: [
+    type: "choice",
+    data: [
       {
         name: "Basic",
-        type: "executable",
-        operations: function (cb) { console.log("Hello World, from the Basic example!"); cb(); }
+        type: "executable"
+        data: function (cb) { console.log("Hello World, from the Basic example!"); cb(); }
       }, {
         name: "Intermediate",
+        type: "sequence"
         prompt: "This example will attempt to determine your age.",
-        operations: [
+        data: [
           {
-            type: "question",
-            operations: [
+            type:"question",
+            data: [
               "What year were you born? [YYYY] ",
               "What month were you born? [MM] ",
               "What day were you born? [DD] "
             ],
           }, {
             type: "executable",
-            operations: function (cb) {
+            data: function (cb) {
               var results = operator.results.slice(-3);
               bday = new Date(results[2] + "/" + results[1] + "/" + results[0]);
               console.log("You were born " + bday.toString());
               cb(null, bday);
-            },
+            }
           }, {
             type: "choices",
-            operations: [
+            prompt: "Choose units to display your age in:",
+            data: [
               "Years",
               "Days",
               "Hours"
             ]
           }, {
             type: "executable",
-            operations: function () {}
+            data: function (cb) { console.log("Done.", operator.results.slice(-1)[0]); cb(); }
           }
-        ] 
+        ]
       }, {
         name: "Advanced",
-        type: "executable",
-        executable: function (cb) { console.log("Hello World, from the Advanced example!"); cb(); }
+        type: "sequence",
+        data: [
+          {
+            type: "sequence",
+            data: [
+              {
+                type: "executable",
+                data: function (cb) { console.log("Hello,"); cb() }
+              }, {
+                type: "executable",
+                data: function (cb) { console.log("ROY"); cb() }
+              }
+            ]
+          }, {
+            type: "executable",
+            data: function (cb) { console.log("all done"); cb() }
+          }
+        ]
       }
     ]
   }

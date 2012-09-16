@@ -6,12 +6,15 @@
  */
 
 
-require("coffee-script");
+var fs = require("fs");
+var crypto = require("crypto");
 var util = require("./util/util");
 var args = process.argv.slice(2);
+var cacheFile;
 var module = {};
 var sequence = [];
 var operator = { results: [] };
+require("coffee-script");
 
 
 // main
@@ -36,13 +39,17 @@ function loadModule (dir, cb) {
     var module = require(main).operator(operator);
   } catch (err) {
     if (!packageJSON && err === "MODULE_NOT_FOUND") {
-      loadModule(dir, cb);
-      return;
+      return loadModule(dir, cb);
     } else {
       return cb(err);
     }
   }
-  cb(null, module);
+  cacheFile = crypto.createHash("md5").update(dir).digest("hex");
+  cacheFile = __dirname + "/caches/" + cacheFile;
+  fs.readFile(cacheFile, "utf8", function (err, data) {
+    if (!err) operator.cache = JSON.parse(data);
+    cb(null, module);
+  });
 }
 
 function operate (operation) {
@@ -114,7 +121,13 @@ function sequencer () {
 }
 
 function done (err) {
-  if (err) console.log("Operation failed:", err.message);
+  if (err) {
+    console.log("Operation failed:", err.message);
+  } else if (operator.cache) {
+    fs.writeFile(cacheFile, JSON.stringify(operator.cache), function (err) {
+      if (err) console.log("Failed to save cache");
+    });
+  }
 }
 
 function listOptions (options, props) {

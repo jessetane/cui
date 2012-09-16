@@ -4,10 +4,13 @@
   "version": "0.0.1",
   "author": {
     "name": "Twosixheave, Inc",
-    "email": "admin@twosixheave.com"
+    "email": "jesse.tane@gmail.com"
   },
-  "main": "operator",
+  "main": "operator.js",
   "bin": {
-    "ghost": "bin/operator.js"
+    "operator": "operator.js"
+  },
+  "dependencies": {
+    "coffee-script": "*"
   }
 }

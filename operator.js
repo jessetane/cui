@@ -6,6 +6,7 @@
  */
 
 
+require("coffee-script");
 var util = require("./util/util");
 var args = process.argv.slice(2);
 var module = {};
@@ -16,7 +17,7 @@ var operator = { results: [] };
 // main
 loadModule(process.cwd(), function (err, module) {
   if (!module) {
-    console.log("No compatible module found", err);
+    console.log("No compatible module found:", err.message);
   } else {
     if (module.name) console.log(module.name);
     operate(module);
@@ -35,10 +36,10 @@ function loadModule (dir, cb) {
     var module = require(main).operator(operator);
   } catch (err) {
     if (!packageJSON && err === "MODULE_NOT_FOUND") {
-      loadModule(dir);
+      loadModule(dir, cb);
       return;
     } else {
-      cb(err);
+      return cb(err);
     }
   }
   cb(null, module);

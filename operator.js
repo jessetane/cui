@@ -7,6 +7,7 @@
 
 
 var fs = require("fs");
+var path = require("path");
 var crypto = require("crypto");
 var util = require("./util/util");
 var args = process.argv.slice(2);
@@ -22,8 +23,10 @@ loadModule(process.cwd(), function (err, module) {
   if (!module) {
     console.log("No compatible module found:", err.message);
   } else {
-    if (module.name) console.log(module.name);
-    operate(module);
+    getDynamicData(module.name, function (err, res) {
+      console.log(res);
+      operate(module);
+    });
   }
 });
 
@@ -36,14 +39,21 @@ function loadModule (dir, cb) {
     packageJSON = null;
     packageJSON = require(dir + "/package");
     var main = dir + "/" + (packageJSON.main || "index");
-    var module = require(main).operator(operator);
+    var module = require(main);
+    loadCache(dir, function () {
+      module = module.operator(operator);
+      cb(null, module);
+    });
   } catch (err) {
-    if (!packageJSON && err === "MODULE_NOT_FOUND") {
-      return loadModule(dir, cb);
+    if (!packageJSON && err.code === "MODULE_NOT_FOUND") {
+      loadModule(path.normalize(dir + "/../"), cb);
     } else {
-      return cb(err);
+      cb(err);
     }
   }
+}
+
+function loadCache (dir, cb) {
   cacheFile = crypto.createHash("md5").update(dir).digest("hex");
   cacheFile = __dirname + "/caches/" + cacheFile;
   fs.readFile(cacheFile, "utf8", function (err, data) {
@@ -98,10 +108,20 @@ function operate (operation) {
 
 function getDynamicData (f, cb) {
   if (typeof f == "function") {
-    var result = f(chosen);
-    if (result) cb(null, result);
+    var result = f(cb);
+    if (result) {
+      if (cb) {
+        cb(null, result);
+      } else {
+        return result;
+      }
+    }
   } else {
-    cb(null, f);
+    if (cb) {
+      cb(null, f);
+    } else {
+      return f;
+    }
   }
 }
 
@@ -164,7 +184,7 @@ function makeOptionLabel(option, props) {
         label = label.join(" ─ ");
       }
     } else {
-      label = option.name;
+      label = getDynamicData(option.name);
     }
   }
   return label;

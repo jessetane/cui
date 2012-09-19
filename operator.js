@@ -34,7 +34,6 @@ function findOperations (dir, cb) {
     var operations = require(dir + "/operations");
     cb(null, dir, operations);
   } catch (err) {
-    console.log("FAIL", dir);
     if (dir != "/") {
       findOperations(path.normalize(dir + "/../"), cb);
     } else {

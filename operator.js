@@ -9,7 +9,6 @@
 var fs = require("fs");
 var path = require("path");
 var crypto = require("crypto");
-var util = require("./util/util");
 var args = process.argv.slice(2);
 var sequence = [];
 var operator = { results: [] };

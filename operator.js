@@ -11,62 +11,51 @@ var path = require("path");
 var crypto = require("crypto");
 var util = require("./util/util");
 var args = process.argv.slice(2);
-var cacheFile;
-var module = {};
 var sequence = [];
 var operator = { results: [] };
 require("coffee-script");
 
 
-// main
-loadModule(process.cwd(), function (err, module) {
-  if (!module) {
-    console.log("No compatible module found:", err.message);
-  } else {
-    getDynamicData(module.name, function (err, res) {
-      console.log(res);
-      operate(module);
-    });
-  }
-});
+module.exports = load;
 
-// look for a package.json file
-// require the "main" entry and
-// execute the operator function
-function loadModule (dir, cb) {
-  var packageJSON;
+if (require.main == module) {
+  findOperations(process.cwd(), function (err, dir, operations) {
+    if (!err) {
+      load(operations, dir);
+    } else {
+      console.log("Could not load operations:", err);
+    }
+  });
+}
+
+
+function findOperations (dir, cb) {
   try {
-    packageJSON = null;
-    packageJSON = require(dir + "/package");
-    var main = dir + "/" + (packageJSON.main || "index");
-    var module = require(main);
-    loadCache(dir, function () {
-      module = module.operator(operator);
-      cb(null, module);
-    });
+    var operations = require(dir + "/operations");
+    cb(null, dir, operations);
   } catch (err) {
-    if (!packageJSON && err.code === "MODULE_NOT_FOUND") {
-      loadModule(path.normalize(dir + "/../"), cb);
+    console.log("FAIL", dir);
+    if (dir != "/") {
+      findOperations(path.normalize(dir + "/../"), cb);
     } else {
       cb(err);
     }
   }
 }
 
-function loadCache (dir, cb) {
-  cacheFile = crypto.createHash("md5").update(dir).digest("hex");
-  cacheFile = __dirname + "/caches/" + cacheFile;
-  fs.readFile(cacheFile, "utf8", function (err, data) {
+function load (operations, cacheDir) {
+  if (!cacheDir) cacheDir = process.cwd();
+  fs.readFile(".operator", "utf8", function (err, data) {
     if (!err) operator.cache = JSON.parse(data);
-    cb(null, module);
+    processOperations(operations(operator));
   });
 }
 
-function operate (operation) {
-  switch (operation.type) {
+function processOperations (operations) {
+  switch (operations.type) {
     case "sequence":
-      if (operation.prompt) console.log(operation.prompt);
-      sequence = operation.data.concat(sequence);
+      if (operations.prompt) console.log(operations.prompt);
+      sequence = operations.data.concat(sequence);
       sequencer();
       break;
     case "executable":
@@ -75,13 +64,13 @@ function operate (operation) {
         operator.results.push(result);
         sequencer();
       };
-      var result = operation.data(cb);
+      var result = operations.data(cb);
       if (result) cb(null, result);
       break;
     case "question":
-      getDynamicData(operation.data, function (err, questions) {
+      getDynamicData(operations.data, function (err, questions) {
         if (err) return done(err);
-        if (operation.prompt) console.log(operation.prompt);
+        if (operations.prompt) console.log(operations.prompt);
         askQuestions(questions, function (answers) {
           operator.results = operator.results.concat(answers);
           sequencer();
@@ -89,19 +78,19 @@ function operate (operation) {
       });
       break;
     case "choice":
-      getDynamicData(operation.data, function (err, options) {
+      getDynamicData(operations.data, function (err, options) {
         if (err) return done(err);
-        if (operation.prompt) console.log("• " + operation.prompt);
+        if (operations.prompt) console.log("• " + operations.prompt);
         else console.log("• ");
-        listOptions(options, operation.properties);
-        chooseOption(options, operation.properties, function (choice) {
+        listOptions(options, operations.properties);
+        chooseOption(options, operations.properties, function (choice) {
           operator.results.push(choice);
           sequencer();
         });
       });
       break;
     default:
-      done(new Error("Unrecognized operation type \"" + operation.type + "\""));
+      done(new Error("Unrecognized operation type \"" + operations.type + "\""));
       break;
   }
 }
@@ -127,11 +116,11 @@ function getDynamicData (f, cb) {
 
 function sequencer () {
   if (sequence.length) {
-    operate(sequence.shift());
+    processOperations(sequence.shift());
   } else if (operator.results.length) {
     var result = operator.results.slice(-1)[0];
     if (result && result.type && result.data) {
-      operate(result);
+      processOperations(result);
     } else {
       done();
     }
@@ -144,7 +133,7 @@ function done (err) {
   if (err) {
     console.log("Operation failed:", err.message);
   } else if (operator.cache) {
-    fs.writeFile(cacheFile, JSON.stringify(operator.cache), function (err) {
+    fs.writeFile(".operator", JSON.stringify(operator.cache), function (err) {
       if (err) console.log("Failed to save cache");
     });
   }

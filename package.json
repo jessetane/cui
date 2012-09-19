@@ -3,7 +3,7 @@
   "description": "An assistant",
   "version": "0.0.1",
   "author": {
-    "name": "Twosixheave, Inc",
+    "name": "Jesse Tane",
     "email": "jesse.tane@gmail.com"
   },
   "main": "operator.js",

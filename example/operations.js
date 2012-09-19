@@ -1,12 +1,12 @@
 /*
- *  intermediate.js
+ *  operations.js
  *
  */
 
 
-exports.operator = function (operator) {
+module.exports = function (operator) {
+  console.log("Welcome to the example suite.");
   return {
-    name: "Welcome to the example suite.",
     prompt: "Choose an example:",
     type: "choice",
     data: [

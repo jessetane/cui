@@ -39,10 +39,11 @@ function load (operations, cacheDir) {
 
 function findOperations (dir, cb) {
   try {
-    var operations = require(path.normalize(dir + "/operations"));
+    var filename = path.normalize(dir + "/operations");
+    var operations = require(filename);
     cb(null, dir, operations);
   } catch (err) {
-    if (dir != "/") {
+    if (dir !== "/" && err.code === "MODULE_NOT_FOUND") {
       findOperations(path.normalize(dir + "/.."), cb);
     } else {
       cb(err);

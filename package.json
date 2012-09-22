@@ -11,6 +11,7 @@
     "operator": "operator.js"
   },
   "dependencies": {
+    "underscore": "*",
     "coffee-script": "*"
   }
 }

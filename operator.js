@@ -9,6 +9,7 @@
 var fs = require("fs");
 var path = require("path");
 var crypto = require("crypto");
+var _ = require("underscore");
 var args = process.argv.slice(2);
 var sequence = [];
 var operator = { results: [] };
@@ -28,25 +29,25 @@ if (require.main == module) {
 }
 
 
-function findOperations (dir, cb) {
-  try {
-    var operations = require(dir + "/operations");
-    cb(null, dir, operations);
-  } catch (err) {
-    if (dir != "/") {
-      findOperations(path.normalize(dir + "/../"), cb);
-    } else {
-      cb(err);
-    }
-  }
-}
-
 function load (operations, cacheDir) {
   if (!cacheDir) cacheDir = process.cwd();
   fs.readFile(".operator", "utf8", function (err, data) {
     if (!err) operator.cache = JSON.parse(data);
     processOperations(operations(operator));
   });
+}
+
+function findOperations (dir, cb) {
+  try {
+    var operations = require(path.normalize(dir + "/operations"));
+    cb(null, dir, operations);
+  } catch (err) {
+    if (dir != "/") {
+      findOperations(path.normalize(dir + "/.."), cb);
+    } else {
+      cb(err);
+    }
+  }
 }
 
 function processOperations (operations) {
@@ -187,6 +188,16 @@ function selectNumericalOption (options, choice) {
 }
 
 function askQuestions (questions, cb) {
+  if (!questions.forEach) { // if the questions are in a hash, wrap the cb to deal with it
+    var keys = Object.keys(questions);
+    var wrapped = cb;
+    cb = function (answers) {
+      var hash = {};
+      keys.forEach(function (key, i) { if (answers[i]) hash[key] = answers[i] });
+      wrapped(hash);
+    }
+    questions = _.values(questions);
+  }
   var answers = [];
   if (typeof questions == "string") questions = [ questions ];
   ask = function () {

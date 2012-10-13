@@ -6,9 +6,9 @@
     "name": "Jesse Tane",
     "email": "jesse.tane@gmail.com"
   },
-  "main": "operator.js",
+  "main": "lib/operator.js",
   "bin": {
-    "operator": "operator.js"
+    "operator": "lib/operator.js"
   },
   "dependencies": {
     "underscore": "*",

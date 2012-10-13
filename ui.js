@@ -4,13 +4,6 @@
  */
 
 
-// exports:
-// - prompt
-// - listOptions
-// - chooseOption
-// - askQuestions
-
-
 exports.prompt = function prompt (operations) {
   switch (operations.type) {
     case "question":

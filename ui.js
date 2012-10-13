@@ -83,14 +83,14 @@ function makeOptionLabel(option, props) {
 function selectNumericalOption (options, props, choice) {
   var n = Number(choice);
   if (isNaN(n)) {
-    var match = null;
+    var match = [];
     options.forEach(function (option, i) {
       var label = makeOptionLabel(option, props).toLowerCase();
       if (label.search(choice.toLowerCase()) > -1) {
-        match = options[i];
+        match.push(options[i]);
       }
     });
-    return match;
+    return match.shift();
   } else if (n > options.length || n < 1) {
     return null;
   } else {

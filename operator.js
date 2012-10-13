@@ -35,7 +35,7 @@ function find (dir, cb) {
     var operations = require(filename);
     cb(null, dir, operations);
   } catch (err) {
-    if (dir !== "/" && err.code === "MODULE_NOT_FOUND") {
+    if (dir !== "/" && err.code === "MODULE_NOT_FOUND" && err.message.search("/operations") > -1) {
       find(path.normalize(dir + "/.."), cb);
     } else {
       cb(err);

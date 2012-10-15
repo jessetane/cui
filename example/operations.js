@@ -6,9 +6,8 @@
 
 var operator;
 
-module.exports = function (op) {
-  operator = op;
-  //console.log("Some examples.");
+module.exports = function (o) {
+  operator = o;
   return {
     prompt: "Pick one:",
     type: "choice",
@@ -21,7 +20,10 @@ module.exports = function (op) {
 }
 
 
-// hello world
+/*
+ *  hello world
+ *
+ */
 var basic = {
   name: "Basic",
   type: "executable",
@@ -29,11 +31,14 @@ var basic = {
 };
 
 
-// calculates your age in various units
+/*
+ *  what's your bday
+ *
+ */
 var intermediate = {
   name: "Intermediate",
   type: "sequence",
-  prompt: "This example will attempt to determine your age.",
+  prompt: "This example will print your birthday.",
   data: [
     {
       type:"question",
@@ -55,7 +60,21 @@ var intermediate = {
           cb(null, bday);
         }
       }
-    }, {
+    }
+  ]
+};
+
+
+/*
+ *  calculate your age in various units
+ *
+ */
+var advanced = {
+  name: "Advanced",
+  type: "sequence",
+  prompt: "This example will attempt to determine your age.",
+  data: intermediate.data.concat([
+    {
       type: "choice",
       prompt: "Choose units to display your age in:",
       data: [
@@ -86,29 +105,5 @@ var intermediate = {
         cb();
       }
     }
-  ]
-};
-
-
-// for now just testing nested sequences
-var advanced = {
-  name: "Advanced",
-  type: "sequence",
-  data: [
-    {
-      type: "sequence",
-      data: [
-        {
-          type: "executable",
-          data: function (cb) { console.log("just,"); cb() }
-        }, {
-          type: "executable",
-          data: function (cb) { console.log("like,"); cb() }
-        }
-      ]
-    }, {
-      type: "executable",
-      data: function (cb) { console.log("that."); cb() }
-    }
-  ]
+  ])
 };

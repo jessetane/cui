@@ -27,7 +27,7 @@ module.exports = function (o) {
 var basic = {
   name: "Basic",
   type: "executable",
-  data: function (cb) { console.log("Hello World"); cb(); }
+  data: function () { console.log("Hello World"); }
 };
 
 

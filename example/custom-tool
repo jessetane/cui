@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-console.log("This only works on OS X for now!");
+/*
+ *  custom-tool
+ *  - this only works on OS X for now!
+ *
+ */
+ 
 
 var exec = require("child_process").exec;
 
@@ -24,7 +29,7 @@ require("../lib/operator").load(function (operator) {
       }, {
         type: "executable",
         data: function () {
-          exec("say -v " + operator.results.pop() + " \"" + operator.results.pop() + "\"");
+          exec("say -v \"" + operator.results.pop() + "\" \"" + operator.results.pop() + "\"");
         }
       }
     ]

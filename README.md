@@ -10,7 +10,7 @@
 Operator is a tool for building command line interfaces (with Node) that are easy to use AND to learn.
 
 ## Install
-I haven't published this to npm yet so for now you can do the following:
+This project is totally experimental so I haven't published this to npm. For now you can do the following:
 ```bash
 git clone https://github.com/jessetane/operator.git
 cd operator

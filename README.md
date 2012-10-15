@@ -7,7 +7,7 @@
        |__|        \/           \/
 
 ```
-Operator is a tool for building command line interfaces that are easy to use AND learn.
+Operator is a tool for building command line interfaces (with Node) that are easy to use AND to learn.
 
 ## Install
 I haven't published this to NPM yet so for now you can do the following:
@@ -17,13 +17,13 @@ cd operator
 npm install -g
 ```
 
-## How to
+## Use
 There are two ways to use operator:  
 1) by putting your operations in a file called operations.js (or coffee) and typing ```operator``` in the same directory  
-2) by using it in your own executable ```require("operator")(myOperations)```
+2) by using it in your own executable ```require("operator").load(myOperations)```
 
 ## Example
-There are two examples, demonstrating both usage styles in the example directory. Cd into it and try typing ```operator``` and try typing ```./custom-tool```
+There are two examples, demonstrating both usage styles in the example directory. Cd into it and try typing ```operator``` or ```./custom-tool```. Note that once you've learned a command, you can enter your arguments all at once: ```operator advanced 03 09 1985 years```
 
 ## Philosophy
-Command line interfaces are easy to use. The problem with them is that they're really hard to _learn_. You have to read a manual to understand what a tool with a CLI does, and then you have to memorize its commands (very precisely) before you can actually do anything. It's often said that a tool with a well designed graphical user interface is "easy to use". I think what's often meant by this is that the tool is easy to learn - GUIs teach people how to use tools while they use them, which mostly eliminates the need for manuals and memorization. Operator suggests a way to build CLIs that are every bit as easy to learn as their graphical counterparts, while retaining all their traditional advantages.
+Command line tools are easy to use. The problem with them is that they're really hard to _learn_. You need a manual (or a patient instructor) just to get an idea of what the tool can do, and then you need to memorize its commands precisely before you can actually use it. It's often said that a tool with a well designed graphical user interface is "easy to use". I think what's really meant by this is that the tool is easy to learn - GUIs teach people how to use tools while they use them, which mostly eliminates the need for manuals and memorization. Operator proposes a way to build CLIs that are every bit as easy to learn as their graphical counterparts, while retaining the traditional command line advantages.

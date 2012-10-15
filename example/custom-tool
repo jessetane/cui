@@ -2,32 +2,31 @@
 
 console.log("This only works on OS X for now!");
 
-var exec = require("child_process").exec
+var exec = require("child_process").exec;
 
-require("../lib/operator")({
-  type: "sequence",
-  data: [
-    {
-      type: "question",
-      data: "type a few words: "
-    }, {
-      prompt: "pick a voice:",
-      type: "choice",
-      data: function (cb) {
-        var s = exec("say -v ?");
-        var voices = "";
-        s.on("data", function (d) { voices += d });
-        s.on("exit", function () {
-          voices = voices.split("\n");
-          voices = voices.map(function (v) { return v.split("  ")[0] });
-          cb(null, voices);
-        });
+require("../lib/operator").load(function (operator) {
+  return {
+    type: "sequence",
+    data: [
+      {
+        type: "question",
+        data: "Type a few words to say: "
+      }, {
+        prompt: "Pick a voice:",
+        type: "choice",
+        data: function (cb) {
+          var s = exec("say -v ?", function (err, voices) {
+            voices = voices.split("\n").slice(0, -1);
+            voices = voices.map(function (v) { return v.split("  ")[0] });
+            cb(null, voices);
+          });
+        }
+      }, {
+        type: "executable",
+        data: function () {
+          exec("say -v " + operator.results.pop() + " \"" + operator.results.pop() + "\"");
+        }
       }
-    }, {
-      type: "executable",
-      data: function () {
-        exec("say -v " + operator.results.slice(-1) + " " + operator.results[0]);
-      }
-    }
-  ]
+    ]
+  }
 });

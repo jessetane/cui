@@ -8,7 +8,7 @@ var operator;
 
 module.exports = function (op) {
   operator = op;
-  console.log("Some examples.");
+  //console.log("Some examples.");
   return {
     prompt: "Pick one:",
     type: "choice",

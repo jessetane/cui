@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+/*
+ *  basic
+ *
+ */
+
+
+cui = require("../lib/cui");
+
+
+cui.push({
+  title: "This is a very basic example.",
+	type: "buttons",
+	main: [
+	  "One",
+	  "Two",
+	  "Three"
+	]
+});
+
+cui.push(function () {
+  console.log("You pushed \"" + cui.history[0] + "\"!");
+});

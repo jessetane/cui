@@ -12,5 +12,6 @@
   },
   "dependencies": {
     "coffee-script": "*"
-  }
+  },
+  "cui": "example/basic"
 }

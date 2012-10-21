@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+/*
+ *  intermediate
+ *
+ */
+
+
+cui = require("../lib/cui");
+
+
+cui.push({
+  title: "Determine which day of the week you were born on:",
+  type: "fields",
+  main: [
+    "Month [MM]: ",
+    "Day [DD]: ",
+    "Year [YYYY]: "
+  ]
+});
+
+cui.push(function () {
+  var parts = cui.history.slice(-3);
+  var str = parts[0] + "/" + parts[1] + "/" + parts[2];
+  var birthday = new Date(str);
+  if (birthday === "Invalid Date") {
+    console.log(str + " is not a valid date.");
+  } else {
+    console.log("You were born on a " + birthday.toLocaleDateString().split(",")[0] + ".");
+  }
+});

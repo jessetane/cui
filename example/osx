@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+
+/*
+ *  osx "say"
+ *
+ */
+
+
+var exec = require("child_process").exec;
+var cui = require("../lib/cui");
+
+
+cui.push({
+  title: "Choose a voice:",
+  type: "buttons",
+  main: function (cb) {
+    var s = exec("say -v ?", function (err, voices) {
+      voices = voices.split("\n").slice(0, -1);
+      voices = voices.map(function (v) { return v.split("  ")[0] });
+      cb(null, voices);
+    });
+  }
+});
+
+cui.push({
+  type: "fields",
+  main: "Type a message: "
+});
+
+cui.push(function () {
+  var voice = cui.history[0];
+  var message = cui.history[1];
+  exec("say -v \"" + voice + "\" \"" + message + "\"");
+});

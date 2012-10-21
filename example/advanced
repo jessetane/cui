@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+/*
+ *  advanced
+ *
+ */
+
+
+fs = require("fs");
+cui = require("../lib/cui");
+
+
+cui.push({
+	title: "Pick a file:",
+	type: "buttons",
+	main: function (cb) {
+		fs.readdir(process.cwd(), function (err, filenames) {
+			cb(err, filenames);
+		});
+	}
+});
+
+cui.push({
+  title: "Pick an action:",
+  type: "buttons",
+	main: [
+	  "Rename",
+	  "Stat"
+	]
+});
+
+cui.push(function () {
+  var last = cui.history.slice(-1)[0]
+  cui.push((last === "Rename") ? renameInput : statAction);
+});
+
+var renameInput = {
+  type: "fields",
+  main: function (cb) {
+    cui.push(renameAction);
+    var filename = cui.history[0];
+    cb(null, "Type a new name for " + filename + ": ");
+  }
+};
+
+var statAction = function () {
+	fs.stat(cui.history[0], function (err, data) {
+		console.log(data || err);
+	});
+};
+
+var renameAction = function () {
+  fs.stat(cui.history[1], function (err, data) {
+		console.log(data || err);
+	});
+};

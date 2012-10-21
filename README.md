@@ -7,55 +7,32 @@ _/ ___\|  |  \  |
      \/
 
 ```
-Command line GUIs.
+GUIs for the command line.
 
 ## Install
 npm install cui
 
+## Why
+Command line tools are fast - the problem is that they can be hard to use. cui allows you to create optional (and potentially dynamic) views for each parameter your command requires.
+
+## How it works
+Views are arranged in a sequence, and can display either "buttons" or "fields". After each view collects a selection or input, the results are stored and the sequence advances. Views can include a callback that executes after results are stored, but before the sequence advances - usually the last view in the sequence performs the tool's main "work" in its callback.
+
 ## Usage
-Basic
+This code is from example/basic:
 ```javascript
-cui = require("cui");
+cui = require("../lib/cui");
+
 cui.view({
-	buttons: {
-		"One": function () {
-			console.log("One");
-		},
-		"Two": function () {
-			console.log("Two");
-		},
-		"Three": function () {
-			console.log("Three");
-		}
+	title: "This is a very basic example.",
+	type: "buttons",
+	main: [
+		"One",
+		"Two",
+		"Three"
+	],
+	callback: function () {
+		console.log("You could do something now with: \"" + cui.results[0] + "\"");
 	}
 });
-```
-
-Interesting
-```javascript
-cui = require("cui");
-cui.view({
-	title: "Pick a file: "
-	buttons: function (cb) {
-		fs = require("fs");
-		fs.readdir(process.cwd(), function (err, filenames) {
-			this.buttons = filenames;
-			cb(err);
-		});
-	}
-});
-
-var rename = cui.View
-
-cui.view({
-	buttons: {
-		"Stat": function () {
-			fs.stat(cui.history[0], function (err, data) {
-				console.log(data || err);
-			});
-		},
-		"Rename": cui.views.
-	}
-})
-
 ```

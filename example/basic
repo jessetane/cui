@@ -20,5 +20,5 @@ cui.push({
 });
 
 cui.push(function () {
-  console.log("You pushed \"" + cui.history[0] + "\"!");
+  console.log("You could do something now with: \"" + cui.history[0] + "\"");
 });

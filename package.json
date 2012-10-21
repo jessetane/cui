@@ -1,17 +1,14 @@
 {
-  "name": "operator",
-  "description": "An assistant",
+  "name": "cui",
+  "description": "Command line GUIs",
   "version": "0.0.1",
   "author": {
     "name": "Jesse Tane",
     "email": "jesse.tane@gmail.com"
   },
-  "main": "lib/operator.js",
+  "main": "lib/cui.js",
   "bin": {
-    "operator": "lib/operator.js"
-  },
-  "dependencies": {
-    "coffee-script": "*"
+    "cui": "lib/cui.js"
   },
   "cui": "example/basic"
 }

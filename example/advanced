@@ -24,15 +24,23 @@ cui.push({
   title: "Pick an action:",
   type: "buttons",
 	main: [
-	  "Rename",
-	  "Stat"
+	  "Stat",
+	  "Rename"
 	]
 });
 
-cui.push(function () {
+cui.push(function (cb) {
   var last = cui.history.slice(-1)[0]
-  cui.push((last === "Rename") ? renameInput : statAction);
+  cui.push((last === "Stat") ? statAction : renameInput);
+  cb();
 });
+
+var statAction = function () {
+	fs.stat(cui.history[0], function (err, data) {
+		console.log(data || err);
+	});
+};
+
 
 var renameInput = {
   type: "fields",
@@ -43,14 +51,8 @@ var renameInput = {
   }
 };
 
-var statAction = function () {
-	fs.stat(cui.history[0], function (err, data) {
-		console.log(data || err);
-	});
-};
-
 var renameAction = function () {
-  fs.stat(cui.history[1], function (err, data) {
-		console.log(data || err);
-	});
+  fs.rename(cui.history[0], cui.history[3], function (err) {
+    console.log((err) ? err : cui.history[0] + " successfully renamed as " + cui.history[3]);
+  });
 };

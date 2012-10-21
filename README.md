@@ -9,14 +9,14 @@ _/ ___\|  |  \  |
 ```
 GUIs for the command line.
 
+## Why
+Command line tools are fast - the problem is that they can be hard to use. cui allows you to create optional (and potentially dynamic) views for each parameter your tool requires.
+
+## How
+Views are arranged in a sequence, and can display either "buttons" or "fields". After each view collects a selection or input, the results are stored and the sequence advances. Views can include a callback that executes after results are stored, but before the sequence advances - usually the last view in the sequence performs the main "work" in its callback.
+
 ## Install
 npm install cui
-
-## Why
-Command line tools are fast - the problem is that they can be hard to use. cui allows you to create optional (and potentially dynamic) views for each parameter your command requires.
-
-## How it works
-Views are arranged in a sequence, and can display either "buttons" or "fields". After each view collects a selection or input, the results are stored and the sequence advances. Views can include a callback that executes after results are stored, but before the sequence advances - usually the last view in the sequence performs the tool's main "work" in its callback.
 
 ## Usage
 This code is from example/basic:

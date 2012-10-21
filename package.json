@@ -10,5 +10,5 @@
   "bin": {
     "cui": "lib/cui.js"
   },
-  "cui": "example/basic"
+  "cui": "example/all"
 }

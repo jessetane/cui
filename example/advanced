@@ -52,7 +52,7 @@ var renameInput = {
 };
 
 var renameAction = function () {
-  fs.rename(cui.history[0], cui.history[3], function (err) {
-    console.log((err) ? err : cui.history[0] + " successfully renamed as " + cui.history[3]);
+  fs.rename(cui.history[0], cui.history[2], function (err) {
+    console.log((err) ? err : cui.history[0] + " successfully renamed as " + cui.history[2]);
   });
 };

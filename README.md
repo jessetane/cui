@@ -16,7 +16,10 @@ Command line tools are fast - the problem is that they can be hard to use. cui a
 Views are arranged in a sequence, and can display either "buttons" or "fields". After each view collects input, the results are stored and the sequence advances. Views can include an action that executes after results are stored, but before the sequence advances - usually the last view in the sequence performs the main "work" in its action.
 
 ## Install
-npm install cui
+```npm install cui```
+
+## Examples
+The examples are all executable scripts - try cd'ing into the example folder and typing ```./all```
 
 ## Usage
 This code below is essentially the same as in ```example/basic```:

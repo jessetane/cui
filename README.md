@@ -10,10 +10,10 @@ _/ ___\|  |  \  |
 GUIs for the command line.
 
 ## Why
-Command line tools are fast - the problem is that they can be hard to use. cui allows you to create optional (and potentially dynamic) views for each parameter your tool requires.
+Command line tools are fast, but they can be hard to use. cui allows you to create optional (and potentially dynamic) views for each parameter your tool requires.
 
 ## How
-Views are arranged in a sequence, and can display either "buttons" or "fields". After each view collects input, the results are stored and the sequence advances. Views can include an action that executes after results are stored, but before the sequence advances - usually the last view in the sequence performs the main "work" in its action.
+Views are arranged in a sequence, and can display either buttons or fields. After each view collects input, the results are stored and the sequence advances. Views can include an action that executes after the results are stored, but before the sequence advances. Usually a tool's primary "work" is performed in the last view's action.
 
 ## Install
 ```npm install cui```

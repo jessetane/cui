@@ -33,4 +33,5 @@ cui.view({
 	action: function () {
     console.log("You could do something now with: \"" + cui.results[0] + "\"");
   }
-});```
+});
+```

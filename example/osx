@@ -10,10 +10,10 @@ var exec = require("child_process").exec;
 var cui = require("../lib/cui");
 
 
-cui.push({
+cui.view({
   title: "Choose a voice:",
   type: "buttons",
-  main: function (cb) {
+  data: function (cb) {
     var s = exec("say -v ?", function (err, voices) {
       voices = voices.split("\n").slice(0, -1);
       voices = voices.map(function (v) { return v.split("  ")[0] });
@@ -22,13 +22,12 @@ cui.push({
   }
 });
 
-cui.push({
+cui.view({
   type: "fields",
-  main: "Type a message: "
-});
-
-cui.push(function () {
-  var voice = cui.history[0];
-  var message = cui.history[1];
-  exec("say -v \"" + voice + "\" \"" + message + "\"");
+  data: "Type a message: ",
+  action: function () {
+    var voice = cui.results[0];
+    var message = cui.results[1];
+    exec("say -v \"" + voice + "\" \"" + message + "\"");
+  }
 });

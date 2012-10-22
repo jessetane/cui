@@ -6,53 +6,51 @@
  */
 
 
-fs = require("fs");
-cui = require("../lib/cui");
+var fs = require("fs");
+var cui = require("../lib/cui");
 
 
-cui.push({
+cui.view({
 	title: "Pick a file:",
 	type: "buttons",
-	main: function (cb) {
+	data: function (cb) {
 		fs.readdir(process.cwd(), function (err, filenames) {
 			cb(err, filenames);
 		});
 	}
 });
 
-cui.push({
+cui.view({
   title: "Pick an action:",
   type: "buttons",
-	main: [
+	data: [
 	  "Stat",
 	  "Rename"
-	]
-});
-
-cui.push(function (cb) {
-  var last = cui.history.slice(-1)[0]
-  cui.push((last === "Stat") ? statAction : renameInput);
-  cb();
+	],
+	action: function () {
+    var last = cui.results.slice(-1)[0]
+    if (last === "Stat") {
+      statAction();
+    } else {
+      cui.view(renameView);
+    }
+  }
 });
 
 var statAction = function () {
-	fs.stat(cui.history[0], function (err, data) {
+	fs.stat(cui.results[0], function (err, data) {
 		console.log(data || err);
 	});
 };
 
-
-var renameInput = {
+var renameView = {
   type: "fields",
-  main: function (cb) {
-    cui.push(renameAction);
-    var filename = cui.history[0];
-    cb(null, "Type a new name for " + filename + ": ");
+  data: function (cb) {
+    cb(null, "Type a new name for " + cui.results[0] + ": ");
+  },
+  action: function () {
+    fs.rename(cui.results[0], cui.results[2], function (err) {
+      console.log((err) ? err : cui.results[0] + " successfully renamed as " + cui.results[2]);
+    });
   }
-};
-
-var renameAction = function () {
-  fs.rename(cui.history[0], cui.history[2], function (err) {
-    console.log((err) ? err : cui.history[0] + " successfully renamed as " + cui.history[2]);
-  });
 };

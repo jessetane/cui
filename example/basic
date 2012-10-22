@@ -6,19 +6,18 @@
  */
 
 
-cui = require("../lib/cui");
+var cui = require("../lib/cui");
 
 
-cui.push({
+cui.view({
   title: "This is a very basic example.",
 	type: "buttons",
-	main: [
+	data: [
 	  "One",
 	  "Two",
 	  "Three"
-	]
-});
-
-cui.push(function () {
-  console.log("You could do something now with: \"" + cui.history[0] + "\"");
+	],
+	action: function () {
+    console.log("You could do something now with: \"" + cui.results[0] + "\"");
+  }
 });

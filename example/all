@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+/*
+ *  all
+ *
+ */
+
+
+var fs = require("fs");
+var cui = require("../lib/cui");
+
+
+cui.view({
+  title: "Try an example:",
+	type: "buttons",
+	data: function (cb) {
+		fs.readdir(__dirname, function (err, examples) {
+		  filtered = [];
+		  examples.forEach(function (filename) { if (filename !== "all") filtered.push(filename) });
+			cb(err, filtered);
+		});
+	},
+	action: function (cb) {
+    var example = __dirname + "/" + cui.results[0];
+    cui.results = []; // reset for the new cuifile
+    require(example);
+    cb();
+  }
+});

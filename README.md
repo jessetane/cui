@@ -24,13 +24,13 @@ This code below is essentially the same as ```example/basic:```
 var cui = require("cui");
 cui.view({
   title: "This is a very basic example.",
-	type: "buttons",
-	data: [
-	  "One",
-	  "Two",
-	  "Three"
-	],
-	action: function () {
+  type: "buttons",
+  data: [
+    "One",
+    "Two",
+    "Three"
+  ],
+  action: function () {
     console.log("You could do something now with: \"" + cui.results[0] + "\"");
   }
 });

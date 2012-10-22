@@ -22,7 +22,7 @@ Views are arranged in a sequence, and can display either buttons or fields. Afte
 The examples are all executable scripts - try cd'ing into the example folder and typing ```./all```
 
 ## Usage
-This code below is essentially the same as in ```example/basic```:
+This code below is essentially the same as in example/basic:
 ```javascript
 var cui = require("cui");
 cui.view({

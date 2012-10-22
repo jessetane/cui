@@ -19,9 +19,9 @@ Views are arranged in a sequence, and can display either "buttons" or "fields". 
 npm install cui
 
 ## Usage
-This code is from example/basic:
+This code below is essentially the same as ```example/basic:```
 ```javascript
-var cui = require("../lib/cui");
+var cui = require("cui");
 cui.view({
   title: "This is a very basic example.",
 	type: "buttons",

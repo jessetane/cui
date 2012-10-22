@@ -27,13 +27,14 @@ cui.view({
 	  "Stat",
 	  "Rename"
 	],
-	action: function () {
+	action: function (cb) {
     var last = cui.results.slice(-1)[0]
     if (last === "Stat") {
       statAction();
     } else {
       cui.view(renameView);
     }
+    cb();
   }
 });
 

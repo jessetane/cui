@@ -10,5 +10,9 @@
   "bin": {
     "cui": "lib/cui.js"
   },
-  "cui": "example/all"
+  "cui": "example/all",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jessetane/cui.git"
+  }
 }

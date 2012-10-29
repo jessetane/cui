@@ -11,23 +11,23 @@ var cui = require("../lib/cui");
 
 
 cui.view({
-	title: "Pick a file:",
-	type: "buttons",
-	data: function (cb) {
-		fs.readdir(process.cwd(), function (err, filenames) {
-			cb(err, filenames);
-		});
-	}
+  title: "This is a contrived example to demonstrate a branching view tree. Pick a file:",
+  type: "buttons",
+  data: function (cb) {
+    fs.readdir(process.cwd(), function (err, filenames) {
+      cb(err, filenames);
+    });
+  }
 });
 
 cui.view({
   title: "Pick an action:",
   type: "buttons",
-	data: [
-	  "Stat",
-	  "Rename"
-	],
-	action: function (cb) {
+  data: [
+    "Stat",
+    "Rename"
+  ],
+  action: function (cb) {
     var last = cui.results.slice(-1)[0]
     if (last === "Stat") {
       statAction();
@@ -39,9 +39,9 @@ cui.view({
 });
 
 var statAction = function () {
-	fs.stat(cui.results[0], function (err, data) {
-		console.log(data || err);
-	});
+  fs.stat(cui.results[0], function (err, data) {
+    console.log(data || err);
+  });
 };
 
 var renameView = {

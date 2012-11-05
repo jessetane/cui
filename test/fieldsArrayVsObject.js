@@ -18,7 +18,7 @@ cui.view({
     "Three: "
   ],
   action: function (cb) {
-    console.log("Answers: \"" + cui.results + "\"");
+    console.log("Results:", cui.results);
     assert.ok(cui.results.length === 3);
     cb();
   }
@@ -33,7 +33,7 @@ cui.view({
     three: "Three: "
   },
   action: function (cb) {
-    console.log("Answers: \"" + cui.results + "\"");
+    console.log("Results:", cui.results);
     assert.ok(cui.results.length === 4 && cui.results[3].toString() === {}.toString());
     cb();
   }

@@ -1,11 +1,11 @@
 {
   "name": "cui",
   "description": "GUIs for the command line.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "lib/cui.js",
   "author": "Jesse Tane <jesse.tane@gmail.com>",
   "dependencies": {
-    "coffee-script" : "1.3.3"
+    "coffee-script" : "1.4.0"
   },
   "bin": {
     "cui": "lib/cui.js"

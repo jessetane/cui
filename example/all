@@ -10,7 +10,7 @@ var fs = require("fs");
 var cui = require("../lib/cui");
 
 
-cui.view({
+cui.push({
   title: "Try an example:",
   type: "buttons",
   data: function (cb) {

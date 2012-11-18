@@ -9,7 +9,7 @@
 var cui = require("../lib/cui");
 
 
-cui.view({
+cui.push({
   title: "Determine which day of the week you were born on:",
   type: "fields",
   data: [

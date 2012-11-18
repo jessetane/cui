@@ -9,7 +9,7 @@
 var cui = require("../lib/cui");
 
 
-cui.view({
+cui.push({
   title: "This is a very basic example.",
   type: "buttons",
   data: [

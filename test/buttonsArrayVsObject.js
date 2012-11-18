@@ -9,7 +9,7 @@
 var cui = require("../lib/cui");
 var assert = require("assert");
 
-cui.view({
+cui.push({
   title: "This tests buttons in an Array",
   type: "buttons",
   data: [
@@ -24,7 +24,7 @@ cui.view({
   }
 });
 
-cui.view({
+cui.push({
   title: "This tests buttons in an Object",
   type: "buttons",
   data: {

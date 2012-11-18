@@ -10,7 +10,7 @@ var fs = require("fs");
 var cui = require("../lib/cui");
 
 
-cui.view({
+cui.push({
   title: "This is a contrived example to demonstrate a branching view tree. Pick a file:",
   type: "buttons",
   data: function (cb) {
@@ -20,7 +20,7 @@ cui.view({
   }
 });
 
-cui.view({
+cui.push({
   title: "Pick an action:",
   type: "buttons",
   data: [
@@ -32,7 +32,7 @@ cui.view({
     if (last === "Stat") {
       statAction();
     } else {
-      cui.view(renameView);
+      cui.push(renameView);
     }
     cb();
   }

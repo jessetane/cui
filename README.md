@@ -38,3 +38,6 @@ cui.push({
   }
 });
 ```
+
+## License
+MIT

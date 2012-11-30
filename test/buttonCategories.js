@@ -13,7 +13,7 @@ cui.push({
   title: "Cars!",
   type: "buttons",
   categories: [ "make", "model" ],
-  properties: [ "year" ],
+  properties: [ "make", "model", "year" ],
   data: [
     {
       make: "Toyota",
@@ -56,5 +56,9 @@ cui.push({
       model: "Carolla",
       year: 2007
     }
-  ]
+  ],
+  action: function (cb) {
+    console.log(cui.last(1));
+    cb();
+  }
 });

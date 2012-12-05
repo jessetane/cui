@@ -6,8 +6,8 @@
  */
 
 
-var exec = require("child_process").exec;
-var cui = require("../lib/cui");
+var exec = require("child_process").exec
+var cui = require("../lib/cui")
 
 
 cui.push({
@@ -15,19 +15,19 @@ cui.push({
   type: "buttons",
   data: function (cb) {
     var s = exec("say -v ?", function (err, voices) {
-      voices = voices.split("\n").slice(0, -1);
-      voices = voices.map(function (v) { return v.split("  ")[0] });
-      cb(null, voices);
-    });
+      voices = voices.split("\n").slice(0, -1)
+      voices = voices.map(function (v) { return v.split("  ")[0] })
+      cb(null, voices)
+    })
   }
-});
+})
 
 cui.push({
   type: "fields",
   data: "Type a message: ",
   action: function () {
-    var voice = cui.results[0];
-    var message = cui.results[1];
-    exec("say -v \"" + voice + "\" \"" + message + "\"");
+    var voice = cui.results[0]
+    var message = cui.results[1]
+    exec("say -v \"" + voice + "\" \"" + message + "\"")
   }
-});
+})

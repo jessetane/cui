@@ -6,7 +6,7 @@
  */
 
 
-var cui = require("../lib/cui");
+var cui = require("../lib/cui")
 
 
 cui.push({
@@ -18,14 +18,14 @@ cui.push({
     "Year [YYYY]: "
   ],
   action: function (cb) {
-    var parts = cui.results.slice(-3);
-    var str = parts[0] + "/" + parts[1] + "/" + parts[2];
-    var birthday = new Date(str);
+    var parts = cui.results.slice(-3)
+    var str = parts[0] + "/" + parts[1] + "/" + parts[2]
+    var birthday = new Date(str)
     if (birthday === "Invalid Date") {
-      console.log(str + " is not a valid date.");
+      console.log(str + " is not a valid date.")
     } else {
-      console.log("You were born on a " + birthday.toLocaleDateString().split(",")[0] + ".");
+      console.log("You were born on a " + birthday.toLocaleDateString().split(",")[0] + ".")
     }
-    cb();
+    cb()
   }
-});
+})

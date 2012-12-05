@@ -6,8 +6,8 @@
  */
 
 
-var cui = require("../lib/cui");
-var assert = require("assert");
+var cui = require("../lib/cui")
+var assert = require("assert")
 
 cui.push({
   title: "This tests buttons in an Array",
@@ -18,11 +18,11 @@ cui.push({
     "Three"
   ],
   action: function (cb) {
-    console.log("Results:", cui.results);
-    assert.ok(cui.results.length === 1);
-    cb();
+    console.log("Results:", cui.results)
+    assert.ok(cui.results.length === 1)
+    cb()
   }
-});
+})
 
 cui.push({
   title: "This tests buttons in an Object",
@@ -33,8 +33,8 @@ cui.push({
     "Three": 3
   },
   action: function (cb) {
-    console.log("Results:", cui.results);
-    assert.ok(cui.results.length === 2 && typeof cui.results[1] === "number");
-    cb();
+    console.log("Results:", cui.results)
+    assert.ok(cui.results.length === 2 && typeof cui.results[1] === "number")
+    cb()
   }
-});
+})

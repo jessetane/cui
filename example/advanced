@@ -6,8 +6,8 @@
  */
 
 
-var fs = require("fs");
-var cui = require("../lib/cui");
+var fs = require("fs")
+var cui = require("../lib/cui")
 
 
 cui.push({
@@ -15,10 +15,10 @@ cui.push({
   type: "buttons",
   data: function (cb) {
     fs.readdir(process.cwd(), function (err, filenames) {
-      cb(err, filenames);
-    });
+      cb(err, filenames)
+    })
   }
-});
+})
 
 cui.push({
   title: "Pick an action:",
@@ -30,28 +30,28 @@ cui.push({
   action: function (cb) {
     var last = cui.results.slice(-1)[0]
     if (last === "Stat") {
-      statAction();
+      statAction()
     } else {
-      cui.push(renameView);
+      cui.push(renameView)
     }
-    cb();
+    cb()
   }
-});
+})
 
 var statAction = function () {
   fs.stat(cui.results[0], function (err, data) {
-    console.log(data || err);
-  });
-};
+    console.log(data || err)
+  })
+}
 
 var renameView = {
   type: "fields",
   data: function (cb) {
-    cb(null, "Type a new name for " + cui.results[0] + ": ");
+    cb(null, "Type a new name for " + cui.results[0] + ": ")
   },
   action: function () {
     fs.rename(cui.results[0], cui.results[2], function (err) {
-      console.log((err) ? err : cui.results[0] + " successfully renamed as " + cui.results[2]);
-    });
+      console.log((err) ? err : cui.results[0] + " successfully renamed as " + cui.results[2])
+    })
   }
-};
+}

@@ -6,7 +6,7 @@
  */
 
 
-var cui = require("../lib/cui");
+var cui = require("../lib/cui")
 
 
 cui.push({
@@ -18,6 +18,6 @@ cui.push({
     "Three"
   ],
   action: function () {
-    console.log("You could do something now with: \"" + cui.results[0] + "\"");
+    console.log("You could do something now with: \"" + cui.results[0] + "\"")
   }
-});
+})

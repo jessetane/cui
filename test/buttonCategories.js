@@ -6,14 +6,14 @@
  */
 
 
-var cui = require("../lib/cui");
-//var assert = require("assert");
+var cui = require("../lib/cui")
+//var assert = require("assert")
 
 cui.push({
   title: "Cars!",
   type: "buttons",
   categories: [ "make", "model" ],
-  properties: [ "make", "model", "year" ],
+  properties: [ "year", "make", "model" ],
   data: [
     {
       make: "Toyota",
@@ -58,7 +58,7 @@ cui.push({
     }
   ],
   action: function (cb) {
-    console.log(cui.last(1));
-    cb();
+    console.log(cui.last(1))
+    cb()
   }
-});
+})

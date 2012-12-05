@@ -6,8 +6,8 @@
  */
 
 
-var cui = require("../lib/cui");
-var assert = require("assert");
+var cui = require("../lib/cui")
+var assert = require("assert")
 
 cui.push({
   title: "Exact button label matching",
@@ -21,7 +21,7 @@ cui.push({
     "One"
   ],
   action: function (cb) {
-    console.log("Result:", cui.last(1));
-    cb();
+    console.log("Result:", cui.last(1))
+    cb()
   }
-});
+})

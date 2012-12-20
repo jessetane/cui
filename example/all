@@ -16,7 +16,11 @@ cui.push({
   data: function (cb) {
     fs.readdir(__dirname, function (err, examples) {
       filtered = []
-      examples.forEach(function (filename) { if (filename !== "all") filtered.push(filename) })
+      examples.forEach(function (filename) { 
+        if (filename !== "all") {
+          filtered.push(filename) 
+        }
+      })
       cb(err, filtered)
     })
   },

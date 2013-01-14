@@ -1,13 +1,9 @@
 {
   "name": "cui",
   "description": "GUIs for the command line.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "lib/cui.js",
   "author": "Jesse Tane <jesse.tane@gmail.com>",
-  "bin": {
-    "cui": "lib/cui.js"
-  },
-  "cui": "example/all",
   "repository": {
     "type": "git",
     "url": "https://github.com/jessetane/cui.git"

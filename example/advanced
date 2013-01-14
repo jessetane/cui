@@ -5,53 +5,56 @@
  *
  */
 
-
-var fs = require("fs")
-var cui = require("../lib/cui")
-
+var fs = require('fs')
+var cui = require('../')
 
 cui.push({
-  title: "This is a contrived example to demonstrate a branching view tree. Pick a file:",
-  type: "buttons",
-  data: function (cb) {
-    fs.readdir(process.cwd(), function (err, filenames) {
+  title: 'This is a contrived example to demonstrate a branching view tree. Pick a file:',
+  type: 'buttons',
+  data: function(cb) {
+    fs.readdir(process.cwd(), function(err, filenames) {
       cb(err, filenames)
     })
   }
 })
 
 cui.push({
-  title: "Pick an action:",
-  type: "buttons",
+  title: 'Pick an action:',
+  type: 'buttons',
   data: [
-    "Stat",
-    "Rename"
-  ],
-  action: function (cb) {
-    var last = cui.results.slice(-1)[0]
-    if (last === "Stat") {
-      statAction()
-    } else {
-      cui.push(renameView)
-    }
-    cb()
-  }
+    'Stat',
+    'Rename'
+  ]
 })
 
-var statAction = function () {
-  fs.stat(cui.results[0], function (err, data) {
-    console.log(data || err)
+cui.push(function(cb) {
+  var last = cui.last(1)
+  if (last === 'Rename') {
+    cui.push(renameView)
+    cui.push(renameAction)
+  } else {
+    cui.push(statAction)
+  }
+  cb()
+})
+
+var renameView = {
+  type: 'fields',
+  data: function(cb) {
+    cb(null, 'Type a new name for ' + cui.results[0] + ': ')
+  }
+}
+
+function renameAction(cb) {
+  fs.rename(cui.results[0], cui.results[2], function(err) {
+    console.log((err) ? err : cui.results[0] + ' successfully renamed as ' + cui.results[2])
+    cb()
   })
 }
 
-var renameView = {
-  type: "fields",
-  data: function (cb) {
-    cb(null, "Type a new name for " + cui.results[0] + ": ")
-  },
-  action: function () {
-    fs.rename(cui.results[0], cui.results[2], function (err) {
-      console.log((err) ? err : cui.results[0] + " successfully renamed as " + cui.results[2])
-    })
-  }
+function statAction(cb) {
+  fs.stat(cui.results[0], function(err, data) {
+    console.log(data || err)
+    cb()
+  })
 }

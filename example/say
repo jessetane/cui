@@ -1,33 +1,31 @@
 #!/usr/bin/env node
 
 /*
- *  osx "say"
+ *  osx 'say'
  *
  */
 
-
-var exec = require("child_process").exec
-var cui = require("../lib/cui")
-
+var exec = require('child_process').exec
+var cui = require('../')
 
 cui.push({
-  title: "Choose a voice:",
-  type: "buttons",
-  data: function (cb) {
-    var s = exec("say -v ?", function (err, voices) {
-      voices = voices.split("\n").slice(0, -1)
-      voices = voices.map(function (v) { return v.split("  ")[0] })
+  title: 'Choose a voice:',
+  type: 'buttons',
+  data: function(cb) {
+    var s = exec('say -v ?', function(err, voices) {
+      voices = voices.split('\n').slice(0, -1)
+      voices = voices.map(function(v) { return v.split('  ')[0] })
       cb(null, voices)
     })
   }
 })
 
 cui.push({
-  type: "fields",
-  data: "Type a message: ",
-  action: function () {
+  type: 'fields',
+  data: 'Type a message: ',
+  action: function() {
     var voice = cui.results[0]
     var message = cui.results[1]
-    exec("say -v \"" + voice + "\" \"" + message + "\"")
+    exec('say -v "' + voice + '" "' + message + '"')
   }
 })

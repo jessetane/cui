@@ -5,19 +5,30 @@
  *
  */
 
-
-var cui = require("../lib/cui")
-
+var cui = require('../')
 
 cui.push({
-  title: "This is a very basic example.",
-  type: "buttons",
+  title: 'This is a very basic example.',
+  type: 'buttons',
   data: [
-    "One",
-    "Two",
-    "Three"
-  ],
-  action: function () {
-    console.log("You could do something now with: \"" + cui.results[0] + "\"")
-  }
+    'One',
+    'Two',
+    'Three'
+  ]
+})
+
+cui.push(function(cb) {
+	if (cui.last(1) === 'Three') {
+	  cui.splice({
+	    title: 'Three is a special choice!',
+	    type: 'fields',
+	    data: 'Please type a word and press ENTER: '
+	  })
+	}
+	cb()
+})
+
+cui.push(function(cb) {
+  console.log('You could do something now with: "' + cui.results.join('" and "') + '"')
+	cb()
 })

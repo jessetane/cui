@@ -5,27 +5,26 @@
  *
  */
 
-
-var cui = require("../lib/cui")
-
+var cui = require('../')
 
 cui.push({
-  title: "Determine which day of the week you were born on:",
-  type: "fields",
+  title: 'Determine which day of the week you were born on:',
+  type: 'fields',
   data: [
-    "Month [MM]: ",
-    "Day [DD]: ",
-    "Year [YYYY]: "
-  ],
-  action: function (cb) {
-    var parts = cui.results.slice(-3)
-    var str = parts[0] + "/" + parts[1] + "/" + parts[2]
-    var birthday = new Date(str)
-    if (birthday === "Invalid Date") {
-      console.log(str + " is not a valid date.")
-    } else {
-      console.log("You were born on a " + birthday.toLocaleDateString().split(",")[0] + ".")
-    }
-    cb()
+    'Month [MM]: ',
+    'Day [DD]: ',
+    'Year [YYYY]: '
+  ]
+})
+
+cui.push(function(cb) {
+  var parts = cui.results.slice(-3)
+  var str = parts[0] + '/' + parts[1] + '/' + parts[2]
+  var birthday = new Date(str)
+  if (birthday === 'Invalid Date') {
+    console.log(str + ' is not a valid date.')
+  } else {
+    console.log('You were born on a ' + birthday.toLocaleDateString().split(',')[0] + '.')
   }
+  cb()
 })

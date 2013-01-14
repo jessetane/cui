@@ -10,13 +10,13 @@ _/ ___\|  |  \  |
 GUIs for the command line.
 
 ## Why
-I wanted an easy to read & write structure for quickly building self documenting command line programs.
+Command line programs can be hard to learn / use / build.
 
 ## How
-`cui` is a preinstantiated object that can be `require()`'d by multiple files and maintain state. Use `cui.push()` or `cui.splice()` to add views or actions (see the Usage section) to a sequence of frames. Users of your program only need to know the name of your program - cui can walk them through providing the rest of the arguments on its own. If a user *does* know the full command, they can still type it out of course, for example running the basic example any of the following ways is valid:
-`example/basic`
-`example/basic Three`
-`example/basic Three hi!`
+cui is a preinstantiated object that can be `require()`'d by multiple files and maintain its state. Use `cui.push()` or `cui.splice()` to add views or actions (see the Usage section) to a sequence of frames. Users of your program only need to know the name of your program - cui can walk them through providing the rest of the arguments on its own. If a user *does* know the full command, they can still type it out of course, for example running the basic example any of the following ways is valid:  
+* `example/basic`  
+* `example/basic Three`  
+* `example/basic Three hi!`
 
 ## Install
 `npm install cui`
@@ -57,16 +57,16 @@ cui.push(function(cb) {
 ```
 
 ## Properties
-`args` any arguments passed
-`results` an array of results collected by views or manually augmented by actions
-`cache` a cache object that will be automatically loaded & saved if not null (json file named '.cui' in the same directory as the first file to `require('cui')`)
+* `args` any arguments passed
+* `results` an array of results collected by views or manually augmented by actions
+* `cache` a cache object that will be automatically loaded & saved if not null (as a json file named '.cui')
 
 ## Methods
-`push()` add a view or function to the end of the sequence
-`splice()` add a view or function after the current frame
-`last(n)` return `cui.results[results.length - n]`
-`print()` basically `console.log()` but with the same indentation level as specified in `lib/ui`
-`save()` persist the cache now - useful if your script may encounter future errors and exit early
+* `push()` add a view or function to the end of the sequence
+* `splice()` add a view or function after the current frame
+* `last(n)` return `cui.results[results.length - n]`
+* `print()` basically `console.log()` but with the same indentation level as specified in `lib/ui`
+* `save()` persist the cache now - useful if your script may encounter future errors and exit early
 
 ## License
 MIT

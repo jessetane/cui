@@ -173,11 +173,5 @@ function done(err) {
   currentView = null
   if (err) {
     console.log('Error:', err.message)
-  } else if (cache) {
-    save(function(err) {
-      if (err) {
-        console.log('Failed to save cache')
-      }
-    })
   }
 }

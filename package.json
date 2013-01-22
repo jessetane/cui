@@ -1,7 +1,7 @@
 {
   "name": "cui",
   "description": "GUIs for the command line",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "lib/cui.js",
   "author": "Jesse Tane <jesse.tane@gmail.com>",
   "repository": {
